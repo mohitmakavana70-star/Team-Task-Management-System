@@ -1,15 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import api from "../api/axios";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
-import {
-  auth,
-  provider,
-  signInWithRedirect,
-  getRedirectResult
-} from "../firebase";
 
 const Login = () => {
   const { loginUser } = useAuth();
@@ -19,41 +13,6 @@ const Login = () => {
     email: "",
     password: ""
   });
-
-  useEffect(() => {
-  const handleRedirectLogin = async () => {
-    try {
-      const result = await getRedirectResult(auth);
-
-      if (!result) return;
-
-      const userData = {
-        name: result.user.displayName,
-        email: result.user.email
-      };
-
-      const res = await api.post("/auth/google", userData);
-
-      loginUser(res.data);
-      toast.success("Google login successful");
-      navigate("/dashboard");
-    } catch (error) {
-      console.log(error);
-      toast.error("Google login failed");
-    }
-  };
-
-  handleRedirectLogin();
-}, []);
-
- const googleLogin = async () => {
-  try {
-    await signInWithRedirect(auth, provider);
-  } catch (error) {
-    console.log(error);
-    toast.error("Google login failed");
-  }
-};
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -89,20 +48,6 @@ const Login = () => {
 
         <button className="w-full bg-indigo-600 hover:bg-indigo-500 p-3 rounded-xl font-semibold">
           Login
-        </button>
-
-        <button
-          type="button"
-          onClick={googleLogin}
-          className="w-full mt-4 bg-white text-black p-3 rounded-xl font-semibold flex items-center justify-center gap-3 hover:bg-slate-200 transition"
-        >
-          <img
-            src="https://www.svgrepo.com/show/475656/google-color.svg"
-            alt="google"
-            className="w-5 h-5"
-          />
-
-          Continue with Google
         </button>
 
         <p className="text-center text-slate-400 mt-5">
