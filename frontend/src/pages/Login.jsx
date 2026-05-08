@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../api/axios";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +7,8 @@ import toast from "react-hot-toast";
 import {
   auth,
   provider,
-  signInWithPopup
+  signInWithRedirect,
+  getRedirectResult
 } from "../firebase";
 
 const Login = () => {
@@ -21,30 +22,39 @@ const Login = () => {
 
   const googleLogin = async () => {
   try {
-    const result = await signInWithPopup(auth, provider);
-
-    const userData = {
-      name: result.user.displayName,
-      email: result.user.email
-    };
-
-    const res = await api.post(
-      "/auth/google",
-      userData
-    );
-
-    loginUser(res.data);
-
-    toast.success("Google login successful");
-
-    navigate("/dashboard");
+    await signInWithRedirect(auth, provider);
   } catch (error) {
     console.log(error);
-
     toast.error("Google login failed");
   }
 };
 
+  useEffect(() => {
+  const handleRedirectLogin = async () => {
+    try {
+      const result = await getRedirectResult(auth);
+
+      if (!result) return;
+
+      const userData = {
+        name: result.user.displayName,
+        email: result.user.email
+      };
+
+      const res = await api.post("/auth/google", userData);
+
+      loginUser(res.data);
+      toast.success("Google login successful");
+      navigate("/dashboard");
+    } catch (error) {
+      console.log(error);
+      toast.error("Google login failed");
+    }
+  };
+
+  handleRedirectLogin();
+}, []);
+  
   const submitHandler = async (e) => {
     e.preventDefault();
 
