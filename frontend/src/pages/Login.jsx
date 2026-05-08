@@ -20,15 +20,6 @@ const Login = () => {
     password: ""
   });
 
-  const googleLogin = async () => {
-  try {
-    await signInWithRedirect(auth, provider);
-  } catch (error) {
-    console.log(error);
-    toast.error("Google login failed");
-  }
-};
-
   useEffect(() => {
   const handleRedirectLogin = async () => {
     try {
@@ -54,7 +45,16 @@ const Login = () => {
 
   handleRedirectLogin();
 }, []);
-  
+
+ const googleLogin = async () => {
+  try {
+    await signInWithRedirect(auth, provider);
+  } catch (error) {
+    console.log(error);
+    toast.error("Google login failed");
+  }
+};
+
   const submitHandler = async (e) => {
     e.preventDefault();
 
