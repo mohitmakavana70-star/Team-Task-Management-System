@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  background: #020617;
+  color: #f8fafc;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.input {
+  @apply w-full mb-4 p-3 rounded-xl bg-slate-800 border border-slate-700 outline-none focus:border-indigo-500 text-white;
+}
+
+.btn-primary {
+  @apply bg-indigo-600 hover:bg-indigo-500 px-5 py-3 rounded-xl font-semibold transition;
+}
+
+.btn-danger {
+  @apply bg-red-600 hover:bg-red-500 px-4 py-2 rounded-xl font-semibold transition;
+}
+
+.btn-warning {
+  @apply bg-yellow-500 hover:bg-yellow-400 text-black px-4 py-2 rounded-xl font-semibold transition;
+}
