@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const isProduction = window.location.hostname !== "localhost";
+
 const api = axios.create({
   baseURL: isProduction
     ? "https://team-task-management-system-u8ii.onrender.com/api"
