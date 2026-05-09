@@ -29,7 +29,7 @@ app.use(
 
 app.use(
   cors({
-    origin:[ "http://localhost:5173", "https://team-task-management-system-3xht-efprwimx2.vercel.app" ],
+    origin:[ "http://localhost:5173", "https://team-task-management-system-3xht.vercel.app" ],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
